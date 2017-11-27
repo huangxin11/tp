@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:68:"D:\www\tp\public/../application/admin/view/default/server\index.html";i:1511676183;s:67:"D:\www\tp\public/../application/admin/view/default/public\base.html";i:1496373782;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:68:"D:\www\tp\public/../application/admin/view/default/server\index.html";i:1511775120;s:67:"D:\www\tp\public/../application/admin/view/default/public\base.html";i:1496373782;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -150,6 +150,10 @@
         <?php endif; ?>
         </tbody>
     </table>
+    <div class="page">
+        <?php echo $_page; ?>
+    </div>
+
 </div>
 
         </div>

@@ -9,7 +9,11 @@ class Server extends Admin{
      * 展示保修订单
      */
     public function index(){
-        $servers = \think\Db::name('server')->select();
+        $servers = \think\Db::name('server')->paginate(2);
+        $total = \think\Db::name('server')->count();
+        $page = $servers->render();
+        $this->assign('_page',$page);
+        $this->assign('_total',$total);
         $this->assign('servers',$servers);
         return $this->fetch();
 
