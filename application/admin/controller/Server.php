@@ -12,7 +12,7 @@ class Server extends Admin{
         $servers = \think\Db::name('server')->select();
         $this->assign('servers',$servers);
         return $this->fetch();
-//        var_dump($server);die;
+
     }
     /**
      * 添加报修订单
