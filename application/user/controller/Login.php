@@ -51,7 +51,7 @@ class Login extends Controller {
                 $ucm->autoLogin($user->id);
                 $member = model('Member');
                 $member->login($user->id);
-                $cookie_url = Cookie::get('__forward__');
+//                $cookie_url = Cookie::get('__forward__');
                 $this->redirect('home/my/index');
 
 
@@ -67,7 +67,6 @@ class Login extends Controller {
                     /* 调用UC登录接口登录 */
                     $user = new UcApi;
                     $uid = $user->login($username, $password, $type);
-
                     if(0 < $uid){ //UC登录成功
                         /* 登录用户 */
                         $Member = model('Member');
