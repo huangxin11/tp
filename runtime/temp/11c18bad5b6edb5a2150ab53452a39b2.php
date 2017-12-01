@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:66:"D:\www\tp\public/../application/home/view/default/index\index.html";i:1512051992;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:66:"D:\www\tp\public/../application/home/view/default/index\index.html";i:1512096939;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -60,7 +60,7 @@
                         </a>
                     </div>
                     <div class="col-xs-4">
-                        <a href="service.html">
+                        <a href="/home/server/index">
                             <div class="indexLabel label-warning">
                                 <span class="glyphicon glyphicon-ok-circle"></span><br/>
                                 便民服务

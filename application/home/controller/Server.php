@@ -7,7 +7,7 @@ class Server extends Home{
     public function index(){
         $uid = is_login();
         if (!$uid){
-            return $this->error('请先登录',url('/home/login/index'));
+            return $this->error('请先登录',url('/user/login/index'));
         }
         $user = Db::name('ucenter_member')->where('id',$uid)->find();
         if ($user['status'] != 2){
