@@ -7,11 +7,11 @@ class Server extends Home{
     public function index(){
         $uid = is_login();
         if (!$uid){
-            return $this->error('请先登录',url('/user/login/index'));
+             $this->error('请先登录',url('user/login/index'));
         }
         $user = Db::name('ucenter_member')->where('id',$uid)->find();
         if ($user['status'] != 2){
-            return $this->error('你还没有认证，请先认证',url('/home/owner/index'));
+             $this->error('你还没有认证，请先认证',url('/home/owner/index'));
         }
         if ($this->request->isAjax()){
             $page = $this->request->get('page');

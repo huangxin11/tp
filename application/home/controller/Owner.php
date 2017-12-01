@@ -9,11 +9,11 @@ class Owner extends Home {
         $uid = is_login();
 //        var_dump($uid);die;
         if (!$uid){
-            return $this->success('请先登录',url('user/login/index'));
+             $this->error('请先登录',url('user/login/index'));
         }else{
             $user = Db::name('ucenter_member')->where('id',$uid)->find();
             if ($user['status'] == 2){
-                return $this->error('你已经认证过，无需再次验证');
+                 $this->error('你已经认证过，无需再次验证');
             }
         }
         if ($this->request->isPost()){

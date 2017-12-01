@@ -15,6 +15,7 @@ use app\user\model\Member;
 use think\Controller;
 use think\Cookie;
 use think\Db;
+use think\Session;
 
 /**
  * 用户登入
@@ -31,23 +32,31 @@ class Login extends Controller {
     public function index($username = '', $password = '', $verify = '',$type = 1){
         //判断用户是否绑定账号
         //获取opendid
-            $wechat = new Wechat();
-            $openid = $wechat->info();
+        //保存当前地址
+        Session::set('return_url',url('user/login/index'));
+        if (!Session::has('openid')){
+            //第一步：用户同意授权，获取code
+            //1 引导关注者打开如下页面
+            $appid = 'wx31187cf6a0191ab0';
+            //设置绝对路径url地址
+            $callback_url = url('home/wechat/callback','',true,true);
+            $url = "https://open.weixin.qq.com/connect/oauth2/authorize?".
+                "appid={$appid}&redirect_uri={$callback_url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+            $this->redirect($url);
+        }
+        $openid = Session::get('openid');
             $user = Db::name('ucenter_member')->where('openid',$openid)->find();
             if ($user){
                 $ucm = new UcenterMember();
                 $ucm->autoLogin($user->id);
-              $member = new Member();
-                if ($member->login($user->id)){
-                    //TODO:跳转到登录前页面
-                    if(!$cookie_url = Cookie::get('__forward__')){
-                        $cookie_url = url('Home/Index/index');
-                    }
-                    $this->success('登录成功！',$cookie_url);
-                }else{
-                    $this->error($member->getError());
-                }
+                $member = model('Member');
+                $member->login($user->id);
+                $cookie_url = Cookie::get('__forward__');
+                $this->redirect('home/my/index');
+
+
             }else{
+//                echo 1;die;
                 if($this->request->isPost()){ //登录验证
 //            var_dump($_POST);die;
                     /* 检测验证码 */
@@ -68,14 +77,9 @@ class Login extends Controller {
                                 $cookie_url = url('Home/Index/index');
                             }
                             //绑定用户
-                            $Member->openid = $openid;
+                            Db::name('ucenter_member')->where('id',$uid)->setField('openid',$openid);
                             //写入数据库
-                            if ($Member->save()){
                                 $this->success('登录成功！',$cookie_url);
-                            }else{
-                                $this->error($Member->getError());
-                            }
-
                         } else {
                             $this->error($Member->getError());
                         }
