@@ -46,7 +46,6 @@ class Member extends Model{
             $this->error = '用户未激活或已禁用！'; //应用级别禁用
             return false;
         }
- 
         /* 登录用户 */
         $this->autoLogin($user); 
         //记录行为
