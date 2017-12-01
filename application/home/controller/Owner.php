@@ -9,7 +9,8 @@ class Owner extends Home {
         $uid = is_login();
 //        var_dump($uid);die;
         if (!$uid){
-             $this->error('请先登录',url('user/login/index'));
+            $this->redirect('user/login/index');
+//             $this->error('请先登录',url('user/login/index'));
         }else{
             $user = Db::name('ucenter_member')->where('id',$uid)->find();
             if ($user['status'] == 2){

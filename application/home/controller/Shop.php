@@ -7,7 +7,7 @@ class Shop extends Home{
     public function index(){
         $uid = is_login();
         if (!$uid){
-             $this->error('请先登录',url('/user/login/index'));
+            $this->redirect('user/login/index');
         }
         if ($this->request->isAjax()){
             $page = $this->request->get('page');
