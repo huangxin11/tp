@@ -20,7 +20,7 @@ class Wechat extends Home {
         }else{
             $openid = Session::get('openid');
         }
-        var_dump($openid);
+        return $openid;
 
     }
     //授权成功回调页

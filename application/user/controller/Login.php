@@ -9,8 +9,12 @@
 
 namespace app\user\controller;
 use app\common\controller\UcApi;
+use app\common\model\UcenterMember;
+use app\home\controller\Wechat;
+use app\user\model\Member;
 use think\Controller;
 use think\Cookie;
+use think\Db;
 
 /**
  * 用户登入
@@ -25,42 +29,70 @@ class Login extends Controller {
     }
     /* 登录页面 */
     public function index($username = '', $password = '', $verify = '',$type = 1){
-        if($this->request->isPost()){ //登录验证
-//            var_dump($_POST);die;
-            /* 检测验证码 */
-            if(!captcha_check($verify)){
-                $this->error('验证码输入错误！');
-            }
-
-            /* 调用UC登录接口登录 */
-            $user = new UcApi;
-            $uid = $user->login($username, $password, $type);
-
-            if(0 < $uid){ //UC登录成功
-                /* 登录用户 */
-                $Member = model('Member');
-                if($Member->login($uid)){ //登录用户
+        //判断用户是否绑定账号
+        //获取opendid
+            $wechat = new Wechat();
+            $openid = $wechat->info();
+            $user = Db::name('ucenter_member')->where('openid',$openid)->find();
+            if ($user){
+                $ucm = new UcenterMember();
+                $ucm->autoLogin($user->id);
+              $member = new Member();
+                if ($member->login($user->id)){
                     //TODO:跳转到登录前页面
                     if(!$cookie_url = Cookie::get('__forward__')){
                         $cookie_url = url('Home/Index/index');
                     }
                     $this->success('登录成功！',$cookie_url);
-                } else {
-                    $this->error($Member->getError());
+                }else{
+                    $this->error($member->getError());
                 }
+            }else{
+                if($this->request->isPost()){ //登录验证
+//            var_dump($_POST);die;
+                    /* 检测验证码 */
+                    if(!captcha_check($verify)){
+                        $this->error('验证码输入错误！');
+                    }
 
-            } else { //登录失败
-                switch($uid) {
-                    case -1: $error = '用户不存在或被禁用！'; break; //系统级别禁用
-                    case -2: $error = '密码错误！'; break;
-                    default: $error = '未知错误！'; break; // 0-接口参数错误（调试阶段使用）
+                    /* 调用UC登录接口登录 */
+                    $user = new UcApi;
+                    $uid = $user->login($username, $password, $type);
+
+                    if(0 < $uid){ //UC登录成功
+                        /* 登录用户 */
+                        $Member = model('Member');
+                        if($Member->login($uid)){ //登录用户
+                            //TODO:跳转到登录前页面
+                            if(!$cookie_url = Cookie::get('__forward__')){
+                                $cookie_url = url('Home/Index/index');
+                            }
+                            //绑定用户
+                            $Member->openid = $openid;
+                            //写入数据库
+                            if ($Member->save()){
+                                $this->success('登录成功！',$cookie_url);
+                            }else{
+                                $this->error($Member->getError());
+                            }
+
+                        } else {
+                            $this->error($Member->getError());
+                        }
+                    } else { //登录失败
+                        switch($uid) {
+                            case -1: $error = '用户不存在或被禁用！'; break; //系统级别禁用
+                            case -2: $error = '密码错误！'; break;
+                            default: $error = '未知错误！'; break; // 0-接口参数错误（调试阶段使用）
+                        }
+                        $this->error($error);
+                    }
+
+                } else { //显示登录表单
+                    return $this->fetch();
                 }
-                $this->error($error);
             }
 
-        } else { //显示登录表单
-            return $this->fetch();
-        }
     }
 
 	/* 注册页面 */
