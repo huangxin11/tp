@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:67:"D:\www\tp\public/../application/home/view/default/notice\index.html";i:1511779764;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:67:"D:\www\tp\public/../application/home/view/default/notice\index.html";i:1511873625;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -57,7 +57,6 @@
                     <p class="title"><?php echo $notice['title']; ?></p>
                     <p class="intro"><?php echo $notice['description']; ?></p>
                     <p class="info">浏览: <?php echo $notice['view']; ?> <span class="pull-right"><?php echo time_format($notice['create_time']); ?></span> </p>
-
                 </div>
             </a>
         </div>

@@ -26,6 +26,7 @@ class Login extends Controller {
     /* 登录页面 */
     public function index($username = '', $password = '', $verify = '',$type = 1){
         if($this->request->isPost()){ //登录验证
+//            var_dump($_POST);die;
             /* 检测验证码 */
             if(!captcha_check($verify)){
                 $this->error('验证码输入错误！');

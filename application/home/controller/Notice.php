@@ -1,5 +1,7 @@
 <?php
 namespace app\home\controller;
+use app\home\model\Document;
+
 class Notice extends Home{
     /**
      * 展示通知
@@ -19,6 +21,10 @@ class Notice extends Home{
         return $this->fetch();
     }
     public function notice_article($id){
+        $notice = new \app\home\model\Document();
+        /* 更新浏览数 */
+        $map = array('id' => $id);
+        $notice->where($map)->setInc('view');
         $notice_article = \think\Db::name('document_article')->where(['id'=>$id])->find();
 
         $notice = \think\Db::name('document')->where(['id'=>$id])->find();

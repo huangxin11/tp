@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:66:"D:\www\tp\public/../application/user/view/default/login\index.html";i:1511748357;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:66:"D:\www\tp\public/../application/user/view/default/login\index.html";i:1512023200;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -45,19 +45,30 @@
   <!--导航结束-->
 
   <div class="container-fluid">
-    <form>
+    <form action="<?php echo url(); ?>" method="post">
       <div class="form-group">
         <label>用户名(必填):</label>
-        <input type="text" class="form-control" />
+        <input type="text" name="username" class="form-control" />
       </div>
       <div class="form-group">
         <label>密码(必填):</label>
-        <input type="text" class="form-control" />
+        <input type="password" name="password" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>验证码(必填)</label>
+        <input type="text" id="inputPassword" class="form-control" placeholder="请输入验证码"  errormsg="请填写5位验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
+      </div>
+      <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls verifyimg">
+          <?php echo captcha_img(); ?>
+        </div>
+        <div class="controls Validform_checktip text-warning"></div>
       </div>
       <div class="form-group">
         <input type="checkbox" class="" />自动登录
       </div>
-      <!--<div class="form-group">-->
+        <!--<div class="form-group">-->
       <!--<div><a href="#"><span class="glyphicon glyphicon-plus onlineUpImg"></span></a></div>-->
       <!--<label>图片(最多上传5张,可不上传):</label>-->
       <!--</div>-->
@@ -71,5 +82,19 @@
 <script src="/jquery-1.11.2.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        //刷新验证码
+        var verifyimg = $(".verifyimg img").attr("src");
+        $(".verifyimg img").click(function(){
+            if( verifyimg.indexOf('?')>0){
+                $(".verifyimg img").attr("src", verifyimg+'&random='+Math.random());
+            }else{
+                $(".verifyimg img").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+            }
+        });
+    });
+
+</script>
 </body>
 </html>

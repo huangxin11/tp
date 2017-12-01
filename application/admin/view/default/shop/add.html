@@ -1,0 +1,61 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div class="main-title">
+    <h2>
+        {$shop['id']?'编辑':'新增'}商家活动
+    </h2>
+</div>
+<form action="{:url()}" method="post" class="form-horizontal">
+    <input type="hidden" name="id" value="{$shop['id']}">
+    <div class="form-item">
+        <label class="item-label">活动标题<span class="check-tips"></span></label>
+        <div class="controls">
+            <input type="text" class="text input-large" name="title" value="{$shop.title|default=''}">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="item-label">活动开始时间<span class="check-tips"></span></label>
+        <div class="controls">
+            <input type="datetime-local" class="text input-large" name="start_time" value="{$shop.start_time|default=''}">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="item-label">活动结束时间<span class="check-tips"></span></label>
+        <div class="controls">
+            <input type="datetime-local" class="text input-large" name="end_time" value="{$shop.end_time|default=''}">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="item-label">是否发布<span class="check-tips"></span></label>
+        <div class="controls">
+            <input type="radio"  name="status" value="1" {$shop.status==1?'checked':''}>是
+            <input type="radio"  name="status" value="2" {$shop.status==2?'checked':''}>否
+        </div>
+        <!--<div class="controls">-->
+        <!--<select name="target">-->
+        <!--<option value="0" {eq name="info.target" value="0" }selected{/eq}>否</option>-->
+        <!--<option value="1" {eq name="info.target" value="1" }selected{/eq}>是</option>-->
+        <!--</select>-->
+        <!--</div>-->
+    </div>
+    <div class="form-item">
+        <label class="item-label">活动内容<span class="check-tips"></span></label>
+        <div class="controls">
+            <!--<input type="text" class="text input-small" name="sort" value="{$info.sort|default='0'}">-->
+            <textarea name="content" style="width:400px; height: 100px;">{$shop.content|default=''}</textarea>
+        </div>
+    </div>
+    <div class="form-item">
+        <!--<input type="hidden" name="id" value="{$info.id|default=''}">-->
+        <button class="btn submit-btn ajax-posts" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+        <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+    </div>
+</form>
+{/block}
+{block name="script"}
+<!--<script type="text/javascript" charset="utf-8">-->
+<!--//导航高亮-->
+<!--highlight_subnav('{:url('index')}');-->
+<!--</script>-->
+{/block}
