@@ -33,6 +33,7 @@ class Login extends Controller {
         //判断用户是否绑定账号
         //获取opendid
         //保存当前地址
+
         Session::set('return_url',url('user/login/index'));
         if (!Session::has('openid')){
             //第一步：用户同意授权，获取code
@@ -51,8 +52,13 @@ class Login extends Controller {
                 $ucm->autoLogin($user->id);
                 $member = model('Member');
                 $member->login($user->id);
-//                $cookie_url = Cookie::get('__forward__');
-                $this->redirect('home/my/index');
+                $url = Session::get('url');
+                if ($url){
+                    $this->redirect($url);
+                }else{
+                    $this->redirect('home/my/index');
+                }
+
 
 
             }else{

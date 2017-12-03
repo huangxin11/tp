@@ -1,5 +1,7 @@
 <?php
 namespace app\home\controller;
+use think\Session;
+
 class Shop extends Home{
     /**
      * 展示活动
@@ -7,6 +9,7 @@ class Shop extends Home{
     public function index(){
         $uid = is_login();
         if (!$uid){
+            Session::set('url',url('home/shop/index'));
             $this->redirect('user/login/index');
         }
         if ($this->request->isAjax()){

@@ -2,6 +2,7 @@
 namespace app\home\controller;
 use think\Controller;
 use think\Db;
+use think\Session;
 use think\Validate;
 
 class Owner extends Home {
@@ -9,6 +10,7 @@ class Owner extends Home {
         $uid = is_login();
 //        var_dump($uid);die;
         if (!$uid){
+            Session::set('url',url('home/owner/index'));
             $this->redirect('user/login/index');
 //             $this->error('请先登录',url('user/login/index'));
         }else{

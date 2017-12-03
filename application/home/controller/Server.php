@@ -2,11 +2,13 @@
 namespace app\home\controller;
 use think\Controller;
 use think\Db;
+use think\Session;
 
 class Server extends Home{
     public function index(){
         $uid = is_login();
         if (!$uid){
+            Session::set('url',url('home/server/index'));
             $this->redirect('user/login/index');
         }
         $user = Db::name('ucenter_member')->where('id',$uid)->find();
